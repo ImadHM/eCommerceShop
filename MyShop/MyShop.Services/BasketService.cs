@@ -29,16 +29,16 @@ namespace MyShop.Services
 
             Basket basket = new Basket();
 
-            if(cookie!=null)
+            if (cookie != null)
             {
                 string basketId = cookie.Value;
-                if(!string.IsNullOrEmpty(basketId))
+                if (!string.IsNullOrEmpty(basketId))
                 {
                     basket = basketContext.Find(basketId);
                 }
                 else
                 {
-                    if(createIfNull)
+                    if (createIfNull)
                     {
                         basket = CreateNewBasket(httpContext);
                     }
@@ -53,6 +53,7 @@ namespace MyShop.Services
             }
 
             return basket;
+
         }
 
         private Basket CreateNewBasket(HttpContextBase httpContext)
@@ -74,7 +75,7 @@ namespace MyShop.Services
             Basket basket = GetBasket(httpContext, true);
             BasketItem item = basket.BasketItems.FirstOrDefault(i => i.ProductId == productId);
 
-            if(item == null)
+            if (item == null)
             {
                 item = new BasketItem()
                 {
@@ -98,7 +99,7 @@ namespace MyShop.Services
             Basket basket = GetBasket(httpContext, true);
             BasketItem item = basket.BasketItems.FirstOrDefault(i => i.Id == itemId);
 
-            if(item != null)
+            if (item != null)
             {
                 basket.BasketItems.Remove(item);
                 basketContext.Commit();
@@ -135,8 +136,7 @@ namespace MyShop.Services
         {
             Basket basket = GetBasket(httpContext, false);
             BasketSummaryViewModel model = new BasketSummaryViewModel(0, 0);
-
-            if(basket != null)
+            if (basket != null)
             {
                 int? basketCount = (from item in basket.BasketItems
                                     select item.Quantity).Sum();
@@ -155,5 +155,7 @@ namespace MyShop.Services
                 return model;
             }
         }
+
+
     }
 }
